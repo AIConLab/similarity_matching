@@ -6,7 +6,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "similarity_matching_node");
     ros::NodeHandle nh;
 
-    Similarity_Matcher matcher(nh);
+    SimilarityMatcher simp(nh);
     ros::spin();
 
     return 0;
