@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(similarity_mapping)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++11 -O3 -Wall -Wextra -Wpedantic)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   sensor_msgs
+  roslib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -58,8 +59,8 @@ target_link_libraries(similarity_matching_node
 )
 
 ## Install Python scripts
-install(PROGRAMS
-  scripts/image_matcher.py
+catkin_install_python(PROGRAMS
+  scripts/target_image_publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

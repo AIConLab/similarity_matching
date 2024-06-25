@@ -1,10 +1,11 @@
 #pragma once
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
-#include <std_msgs/UInt8.h>
 #include <cv_bridge/cv_bridge.h>
-#include "image_matcher.hh"
+
 #include <boost/circular_buffer.hpp>
+
+#include "image_matcher.hh"
 
 class SimilarityMatcher
 {
@@ -17,7 +18,9 @@ private:
     ros::Subscriber _similarity_score_sub;
     ros::Publisher _similarity_score_pub;
     
-    cv::Mat _target_image;
+    // default to empty image cv
+    cv::Mat _target_image = cv::Mat();
+
     ImageMatcher _image_matcher;
     
     boost::circular_buffer<cv::Mat> _image_buffer;
