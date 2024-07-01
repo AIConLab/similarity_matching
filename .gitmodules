@@ -1,0 +1,3 @@
+[submodule "libs/image_comparison_package"]
+	path = libs/image_comparison_package
+	url = https://github.com/AIConLab/image_comparison_package.git
