@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include "similarity_matcher.hh"
+#include "similarity_matcher.hpp"
 
 int main(int argc, char **argv)
 {

@@ -48,7 +48,7 @@
   </group>
 
  <node name="target_image_publisher" pkg="similarity_mapping" type="target_image_publisher.py" output="screen">
-      <param name="image_path" value="$(find similarity_mapping)/test/target_image.jpg" />
+      <param name="image_path" value="$(find similarity_mapping)/media/target_image.jpg" />
   </node>
 
 </launch>
