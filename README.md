@@ -1,4 +1,4 @@
-# similarity_mapping
+# similarity_matching
 
 Package for mapping and navigation based on similarity values to a reference image.
 

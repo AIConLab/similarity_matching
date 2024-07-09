@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(similarity_mapping)
+project(similarity_matching)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11 -O3 -Wall -Wextra -Wpedantic -Werror)
@@ -36,7 +36,7 @@ generate_messages(
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES similarity_mapping
+  LIBRARIES similarity_matching
   CATKIN_DEPENDS actionlib cv_bridge geographic_msgs image_transport move_base_msgs roscpp std_msgs sensor_msgs message_runtime
   DEPENDS OpenCV
 )
@@ -67,6 +67,7 @@ target_link_libraries(similarity_matching_node
 ## Install Python scripts
 catkin_install_python(PROGRAMS
   scripts/target_image_publisher.py
+  scripts/heatmap_visualizer_publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

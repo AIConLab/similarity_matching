@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>similarity_mapping</name>
+  <name>similarity_matching</name>
   <version>0.0.0</version>
-  <description>The similarity_mapping package</description>
+  <description>The similarity_matching package</description>
   <maintainer email="jc@todo.todo">jc</maintainer>
   <license>TODO</license>
 

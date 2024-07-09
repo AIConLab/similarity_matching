@@ -45,6 +45,8 @@
     <node name="similarity_matcher" pkg="similarity_mapping" type="similarity_matching_node" output="screen">
       <remap from="camera_image_stream" to="/front_realsense/color/image_raw" />
     </node>
+
+    <node name="heatmap_publisher" pkg="similarity_mapping" type="heatmap_visualizer_publisher.py" output="screen"/>
   </group>
 
  <node name="target_image_publisher" pkg="similarity_mapping" type="target_image_publisher.py" output="screen">

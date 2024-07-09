@@ -1,6 +1,4 @@
 #include "similarity_matcher.hpp"
-#include <cv_bridge/cv_bridge.h>
-#include <ros/package.h>
 
 SimilarityMatcher::SimilarityMatcher(ros::NodeHandle &nh) : _nh(nh), _stop_thread(false)
 {
@@ -63,8 +61,6 @@ bool SimilarityMatcher::_are_images_ready()
 
 void SimilarityMatcher::_target_image_callback(const sensor_msgs::Image::ConstPtr &msg)
 {
-    ROS_INFO("Received target image with size: %dx%d, stamp: %f", 
-             msg->width, msg->height, msg->header.stamp.toSec());
     std::lock_guard<std::mutex> lock(_data_mutex);
     try {
         _target_image = cv_bridge::toCvCopy(msg, "bgr8")->image;
@@ -83,7 +79,6 @@ void SimilarityMatcher::_camera_stream_callback(const sensor_msgs::Image::ConstP
 
 bool SimilarityMatcher::_write_image_to_python(const cv::Mat& image)
 {
-    ROS_INFO("Writing image to Python: %dx%d, %d channels", image.rows, image.cols, image.channels());
     int32_t header[3] = {image.rows, image.cols, image.channels()};
     ssize_t total_written = 0;
     while (static_cast<size_t>(total_written) < sizeof(header)) {
@@ -108,7 +103,6 @@ bool SimilarityMatcher::_write_image_to_python(const cv::Mat& image)
         total_written += written;
     }
 
-    ROS_INFO("Successfully wrote image to pipe");
     return true;
 }
 
@@ -121,14 +115,12 @@ bool SimilarityMatcher::_read_python_output()
         ROS_ERROR("Failed to read similarity score from Python");
         return false;
     }
-    ROS_INFO("Read similarity score: %f", similarity_score);
 
     uint32_t target_kp_count, scene_kp_count;
     if (read(_pipe_from_python[0], &target_kp_count, sizeof(uint32_t)) != sizeof(uint32_t)) {
         ROS_ERROR("Failed to read target keypoint count from Python");
         return false;
     }
-    ROS_INFO("Read target keypoint count: %u", target_kp_count);
 
     for (uint32_t i = 0; i < target_kp_count; ++i) {
         float x, y;
@@ -144,7 +136,6 @@ bool SimilarityMatcher::_read_python_output()
         ROS_ERROR("Failed to read scene keypoint count from Python");
         return false;
     }
-    ROS_INFO("Read scene keypoint count: %u", scene_kp_count);
 
     for (uint32_t i = 0; i < scene_kp_count; ++i) {
         float x, y;
@@ -184,13 +175,9 @@ void SimilarityMatcher::_process_images()
             scene = _latest_scene_image.clone();
         }
 
-        ROS_INFO("Processing images: Target size: %dx%d, Scene size: %dx%d", 
-                 target.cols, target.rows, scene.cols, scene.rows);
-        
         bool success = _write_image_to_python(target) && _write_image_to_python(scene);
 
         if (success) {
-            ROS_INFO("Both images written to Python, waiting for output");
             if (_read_python_output()) {
                 _publish_data();
             } else {
@@ -206,8 +193,6 @@ void SimilarityMatcher::_process_images()
 
 void SimilarityMatcher::_publish_data()
 {
-    ROS_INFO("Publishing data");
-
     std::lock_guard<std::mutex> lock(_data_mutex);
     if (_all_pub_data_ready) {
         sensor_msgs::ImagePtr target_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", _target_image).toImageMsg();
@@ -238,9 +223,6 @@ void SimilarityMatcher::_publish_data()
         _current_similarity_score_pub.publish(score_msg);
         _current_target_keypoints_pub.publish(target_kp_msg);
         _current_scene_keypoints_pub.publish(scene_kp_msg);
-
-         ROS_INFO("Publishing data: Similarity score: %f, Target keypoints: %zu, Scene keypoints: %zu",
-        _latest_similarity_score, _target_keypoints.size(), _scene_keypoints.size());
 
         
         _all_pub_data_ready = false;
