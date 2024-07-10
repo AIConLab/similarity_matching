@@ -53,7 +53,7 @@ add_library(${PROJECT_NAME}
 )
 
 ## Declare a C++ executable
-add_executable(similarity_matching_node src/similarity_matching_node.cc)
+add_executable(similarity_matching_node src/similarity_matching_node.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(similarity_matching_node

@@ -14,7 +14,7 @@ SimilarityMatcher::SimilarityMatcher(ros::NodeHandle &nh) : _nh(nh), _stop_threa
         dup2(_pipe_to_python[0], STDIN_FILENO);
         dup2(_pipe_from_python[1], STDOUT_FILENO);
         
-        std::string package_path = ros::package::getPath("similarity_mapping");
+        std::string package_path = ros::package::getPath("similarity_matching");
         std::string cmd = package_path + "/libs/image_comparison_package/similarity_scorer_realtime.py";
 
         ROS_INFO("Executing Python script: %s", cmd.c_str());
