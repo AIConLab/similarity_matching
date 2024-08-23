@@ -10,12 +10,12 @@ class TargetImagePublisher:
         rospy.init_node('target_image_publisher', anonymous=True)
         self.pub = rospy.Publisher('target_image_updates', Image, queue_size=10)
         self.bridge = CvBridge()
-        self.image_path = rospy.get_param('~image_path', '')
+        self.image_path = rospy.get_param('~target_image_path', '')
         self.rate = rospy.Rate(0.1)  # 0.1 Hz = every 10 seconds
 
     def publish_image(self):
         if not self.image_path:
-            rospy.logerr("No image path provided!")
+            rospy.logerr("TargetImagePublisher:No image path provided!")
             return
 
         img = cv2.imread(self.image_path)

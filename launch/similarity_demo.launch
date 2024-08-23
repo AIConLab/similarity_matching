@@ -42,15 +42,15 @@
 
 
   <group>
-    <node name="similarity_matcher" pkg="similarity_mapping" type="similarity_matching_node" output="screen">
+    <node name="similarity_matcher" pkg="similarity_matching" type="similarity_matching_node" output="screen">
       <remap from="camera_image_stream" to="/front_realsense/color/image_raw" />
     </node>
 
-    <node name="heatmap_publisher" pkg="similarity_mapping" type="heatmap_visualizer_publisher.py" output="screen"/>
+    <node name="heatmap_publisher" pkg="similarity_matching" type="heatmap_visualizer_publisher.py" output="screen"/>
   </group>
 
- <node name="target_image_publisher" pkg="similarity_mapping" type="target_image_publisher.py" output="screen">
-      <param name="image_path" value="$(find similarity_mapping)/media/target_image.jpg" />
+ <node name="target_image_publisher" pkg="similarity_matching" type="target_image_publisher.py" output="screen">
+      <param name="image_path" value="$(find similarity_matching)/media/target_image.jpg" />
   </node>
 
 </launch>
