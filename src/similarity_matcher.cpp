@@ -36,8 +36,8 @@ SimilarityMatcher::SimilarityMatcher(ros::NodeHandle &nh) : _nh(nh), _stop_threa
     _current_target_image_pub = _nh.advertise<sensor_msgs::Image>("current_target_image", 1);
     _current_scene_image_pub = _nh.advertise<sensor_msgs::Image>("current_scene_image", 1);
     _current_similarity_score_pub = _nh.advertise<std_msgs::Float32>("current_similarity_score", 1);
-    _current_target_keypoints_pub = _nh.advertise<similarity_mapping::Keypoints>("current_target_keypoints", 1);
-    _current_scene_keypoints_pub = _nh.advertise<similarity_mapping::Keypoints>("current_scene_keypoints", 1);
+    _current_target_keypoints_pub = _nh.advertise<similarity_matching::Keypoints>("current_target_keypoints", 1);
+    _current_scene_keypoints_pub = _nh.advertise<similarity_matching::Keypoints>("current_scene_keypoints", 1);
 
     _processing_thread = std::thread(&SimilarityMatcher::_process_images, this);
 }
@@ -201,8 +201,8 @@ void SimilarityMatcher::_publish_data()
         std_msgs::Float32 score_msg;
         score_msg.data = _latest_similarity_score;
         
-        similarity_mapping::Keypoints target_kp_msg;
-        similarity_mapping::Keypoints scene_kp_msg;
+        similarity_matching::Keypoints target_kp_msg;
+        similarity_matching::Keypoints scene_kp_msg;
 
         for (const auto& kp : _target_keypoints) {
             geometry_msgs::Point32 point;

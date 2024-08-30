@@ -4,7 +4,8 @@
 #include <std_msgs/Float32.h>
 #include <ros/package.h>
 
-#include <similarity_mapping/Keypoints.h>
+// This is the keypoint message in /msg
+#include <similarity_matching/Keypoints.h>
 
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/core/types.hpp>
