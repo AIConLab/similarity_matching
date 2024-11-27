@@ -1,23 +1,79 @@
-# similarity_matching
+# Similarity Matching Package
 
-Package for mapping and navigation based on similarity values to a reference image.
+A ROS package for image-based navigation using similarity matching between a reference image and camera stream. The package computes similarity scores and keypoint matching to enable navigation based on visual features. This implementation uses the XFeat model for feature detection and matching.
+
+## Features
+
+- Real-time similarity scoring between target and scene images
+- Keypoint detection and matching using XFeat
+- ROS integration with image streams
+- Debug visualization tools
+- Python-C++ interop for efficient processing
+
+## Prerequisites
+
+- ROS (tested on ROS Noetic)
+- OpenCV
+- Python 3
+- PyTorch
+- Additional Python packages:
+  - numpy
+  - torch
 
 ## Installation
 
-TODO
+1. Clone the repository with submodules:
+```bash
+git clone --recursive https://github.com/your-repo/similarity_matching.git
+```
+
+2. Install dependencies:
+```bash
+sudo apt-get install python3-dev python3-numpy python3-torch libopencv-dev
+```
+
+3. Build the package:
+```bash
+cd your_workspace
+catkin build similarity_matching
+source devel/setup.bash
+```
 
 ## Usage
 
-See launch file.
+1. Launch the main node:
+```bash
+roslaunch similarity_matching similarity_matching.launch
+```
 
+2. Publish a target image:
+```bash
+rosrun similarity_matching target_image_publisher.py _image_path:=/path/to/target/image.jpg
+```
 
-## Debug
+3. The node will begin processing the camera stream and publishing:
+   - Similarity scores
+   - Detected keypoints
+   - Debug visualizations (if enabled)
 
-From the package directory:
-```python3
+## Nodes
+
+### similarity_matching_node
+
+Main node handling the similarity computation and ROS integration.
+
+## Debug Tools
+
+The package includes debugging tools to visualize the matching process:
+
+```bash
 python3 scripts/xfeat_interface.py \
-    --target_img_path=/home/jc/Workspaces/nav_sim_ws/src/drone_waypoint_sim/missions/mission_2024_06_21_10_06_41/waypoint_2024_06_21_10_08_04/target_image.jpg \
-    --scene_img_path=/home/jc/Workspaces/nav_sim_ws/src/drone_waypoint_sim/missions/mission_2024_06_21_10_06_41/waypoint_2024_06_21_10_08_04/target_image.jpg \
+    --target_img_path=/path/to/target/image.jpg \
+    --scene_img_path=/path/to/scene/image.jpg \
     --debug_print_results_to_console \
     --save_matching_results_to_image
 ```
+
+## Acknowledgments
+
+This package uses the XFeat model for feature detection and matching. Check out the project [here](https://github.com/verlab/accelerated_features?tab=readme-ov-file).
